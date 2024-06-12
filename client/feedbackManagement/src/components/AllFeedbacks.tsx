@@ -1,3 +1,5 @@
+import FeedbackCard from "./FeedbackCard";
+
 type feedbackType = {
     name: string
     feedback: string
@@ -5,14 +7,11 @@ type feedbackType = {
 
 function AllFeedbacks({feedbacks} : {feedbacks : feedbackType}) {
     return (
-        <div>
+        <div className="bg-gradient-to-r from-indigo-950 via-purple-800 to-indigo-950 flex w-full flex-col justify-center items-center">
             {
-                feedbacks.map((feedback) => {
+                feedbacks.map((feedback, i) => {
                     return (
-                        <>
-                        <div>{feedback.name}</div>
-                        <div>{feedback.feedback}</div>
-                        </>
+                        <FeedbackCard key={i} feedback={feedback}/>
                     )
                 })
             }
