@@ -26,7 +26,12 @@ app.get("/", (req, res) => {
     res.send("Hello from server");
 });
 app.get("/api/feedbacks", (req, res) => {
-    res.send(feedbacks);
+    const limit = parseInt(req.query.limit);
+    const page = parseInt(req.query.page);
+    if (!isNaN(limit) && limit > 0 && !isNaN(page) && page > 0) {
+        return res.json(feedbacks.slice(limit * (page - 1), limit * (page)));
+    }
+    res.json(feedbacks);
 });
 app.use('/api/feedbacks', limiter);
 app.post('/api/feedbacks', (req, res) => {
