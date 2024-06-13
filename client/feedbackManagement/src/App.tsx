@@ -2,22 +2,29 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import AllFeedbacks from './components/AllFeedbacks';
 import Form from './components/Form';
-import axios, { AxiosResponse } from 'axios';
+import worker_script from './worker';
 
 type feedbackType = {
     name: string
     feedback: string
 }[];
 
+let worker: Worker;
+
 export default function App() {
 	const [feedbacks, setFeedbacks] = useState<[] | feedbackType>([]);
+	
+	if(window.Worker) {
+		worker = new Worker(worker_script)
+	} 
+
 	useEffect(() => {
-		axios.get("http://localhost:8000/api/feedbacks")
-		.then((data: AxiosResponse) => {
-			// console.log(data.data);
-			setFeedbacks(data.data);
-		})
-	}, [feedbacks])
+		worker.postMessage("start");
+		worker.onmessage = e => {
+			setFeedbacks(e.data);
+		}
+	}, []);
+
 	return (
 		<>
 		<Form setFeedbacks={setFeedbacks}/>

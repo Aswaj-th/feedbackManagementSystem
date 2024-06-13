@@ -23,7 +23,7 @@ function Form({setFeedbacks} : {setFeedbacks : React.Dispatch<React.SetStateActi
 		}
 		axios.post('http://localhost:8000/api/feedbacks', data)
 		.then((res) => {
-			console.log(res);
+			// console.log(res);
 			setFeedbacks(res.data);
 		})
 		.catch((err) => {
