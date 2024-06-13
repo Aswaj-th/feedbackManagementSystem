@@ -12,7 +12,7 @@ type feedbackType = {
 export default function App() {
 	const [feedbacks, setFeedbacks] = useState<[] | feedbackType>([]);
 	useEffect(() => {
-		axios.get("http://localhost:8000/api/requests")
+		axios.get("http://localhost:8000/api/feedbacks")
 		.then((data: AxiosResponse) => {
 			// console.log(data.data);
 			setFeedbacks(data.data);
