@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import axios from 'axios';
+import Popup from './Popup';
 
 type feedbackType = {
     name: string
@@ -9,11 +10,15 @@ type feedbackType = {
 function Form({setFeedbacks} : {setFeedbacks : React.Dispatch<React.SetStateAction<[]|feedbackType>>}) {
     const [name, setName] = useState("");
     const [feedback, setFeedback] = useState("");
+	const [showPopup, setShowPopup] = useState(true);
     return (
 		<>
 		<form onSubmit={(e) => {
 			e.preventDefault();
-			if(name === "" || feedback === "") return;
+			if(name === "" || feedback === "") {
+				setShowPopup(true);
+				return;
+			}
 			const data = {
 				name: name,
 				feedback: feedback
@@ -29,6 +34,7 @@ function Form({setFeedbacks} : {setFeedbacks : React.Dispatch<React.SetStateActi
 			setName("");
 			setFeedback("");
 		}} className='flex flex-col text-center justify-center items-center my-6 bg-theme1-400 rounded-lg'>
+			{showPopup ? <Popup setShowPopup={setShowPopup}/> : null}
 			<h2 className='my-4 text-2xl text-theme1-600'>Feedback Form</h2>
 			<input className='w-4/6 p-2 m-2 text-center rounded bg-theme1-100' type="text" value={name} onChange={(e: React.FormEvent<HTMLInputElement>) => setName(e.currentTarget.value)} placeholder='name' />
 			<textarea className='w-4/6 p-2 m-2 text-center rounded h-20 bg-theme1-100 resize-none' value={feedback} onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setFeedback(e.currentTarget.value)} placeholder='feedback' />
